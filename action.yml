@@ -1,6 +1,6 @@
-name: 'Git Tag Action'
+name: 'Nebra Git Tag Action'
 description: 'Add a git tag to the current workflow commit'
-author: 'Hole19'
+author: 'NebraLtd'
 runs:
   using: 'docker'
   image: 'Dockerfile'
