@@ -11,6 +11,10 @@ if [[ -z "${GITHUB_TOKEN}" ]]; then
    exit 1
 fi
 
+if [[ -z "${COMMIT_SHA}" ]]; then
+   COMMIT_SHA=$GITHUB_SHA
+fi
+
 # get GitHub API endpoints prefix
 git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
 
@@ -39,7 +43,7 @@ then
   -d @- << EOF
 
   {
-    "sha": "$GITHUB_SHA",
+    "sha": "$COMMIT_SHA",
     "force": true
   }
 EOF
@@ -51,7 +55,7 @@ else
 
   {
     "ref": "refs/tags/$TAG",
-    "sha": "$GITHUB_SHA"
+    "sha": "$COMMIT_SHA"
   }
 EOF
 fi
