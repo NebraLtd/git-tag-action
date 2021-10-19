@@ -27,6 +27,7 @@ tag_exists="false"
 if [ $(git tag -l "$TAG") ]; then
     tag_exists="true"
     echo "Tag $TAG already exists."
+    sleep 1
 else
   # check if tag exists in the remote repo
   getReferenceStatus=$(curl "$git_refs_url/tags/$TAG" \
@@ -36,14 +37,17 @@ else
   if [ "$getReferenceStatus" = '200' ]; then
     tag_exists="true"
     echo "Tag $TAG already exists."
+    sleep 1
   else
     echo "Tag $TAG does not exist."
+    sleep 1
   fi
 fi
 
 if $tag_exists
 then
   echo "**updating existing tag $TAG and pushing to repo $GITHUB_REPOSITORY."
+  sleep 1
   # update tag
   curl -X PATCH "$git_refs_url/tags/$TAG" \
   -H "Authorization: token $GITHUB_TOKEN" \
@@ -56,6 +60,7 @@ then
 EOF
 else
   echo "**pushing new tag $TAG to repo $GITHUB_REPOSITORY."
+  sleep 1
   # create new tag
   curl -X POST "$git_refs_url" \
   -H "Authorization: token $GITHUB_TOKEN" \
@@ -68,4 +73,5 @@ else
 EOF
 fi
 
+sleep 1
 echo "Tagging complete... $TAG has been successfully pushed!"
