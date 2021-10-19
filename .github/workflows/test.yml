@@ -18,3 +18,5 @@ jobs:
           git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
           echo $git_refs_url
           cat $GITHUB_EVENT_PATH | jq '.'
+          git_refs_url_new="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/git/refs"
+          echo $git_refs_url_new
