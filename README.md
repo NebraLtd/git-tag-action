@@ -1,6 +1,6 @@
 # git-tag-action
 
-GitHub action that adds a lightweight git tag to the current workflow commit.
+GitHub action that adds a lightweight git tag to a commit.
 
 **Note:** If a tag with the same name already exists, it is replaced.
 
