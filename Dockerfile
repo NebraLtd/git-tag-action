@@ -1,7 +1,7 @@
 FROM alpine
-LABEL "repository"="https://github.com/hole19/git-tag-action"
-LABEL "homepage"="https://github.com/hole19/git-tag-action"
-LABEL "maintainer"="Hole19"
+LABEL "repository"="https://github.com/NebraLtd/git-tag-action"
+LABEL "homepage"="https://github.com/NebraLtd/git-tag-action"
+LABEL "maintainer"="NebraLtd"
 
 COPY entrypoint.sh /entrypoint.sh
 
