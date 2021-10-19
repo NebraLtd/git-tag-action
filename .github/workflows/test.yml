@@ -1,0 +1,20 @@
+name: Test
+
+on:
+  schedule:
+    - cron:  "*/5 * * * *" # Run every 5 minutes
+  workflow_dispatch:
+
+jobs:
+  main:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+        with: 
+          ref: ${{ github.ref }}
+      - name: Perform check and update
+        run: |
+          git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
+          echo $git_refs_url
+          cat $GITHUB_EVENT_PATH | jq '.'
