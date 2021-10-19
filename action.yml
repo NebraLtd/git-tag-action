@@ -1,5 +1,5 @@
 name: 'Nebra Git Tag Action'
-description: 'Add a git tag to the current workflow commit'
+description: 'Add a lightweight git tag to a commit'
 author: 'NebraLtd'
 runs:
   using: 'docker'
