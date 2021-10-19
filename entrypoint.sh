@@ -21,7 +21,7 @@ else
 fi
 
 # get GitHub API endpoints prefix
-git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
+git_refs_url="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/git/refs"
 echo "GitHub API URL: $git_refs_url"
 sleep 1
 
