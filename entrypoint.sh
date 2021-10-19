@@ -13,15 +13,20 @@ fi
 
 if [[ -z "${COMMIT_SHA}" ]]; then
    COMMIT_SHA=$GITHUB_SHA
+   echo "Using workflow trigger SHA: $COMMIT_SHA."
+else
+   echo "Using supplied SHA: $COMMIT_SHA."
 fi
 
 # get GitHub API endpoints prefix
 git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
+echo "GitHub API URL: $git_refs_url"
 
 # check if tag already exists in the cloned repo
 tag_exists="false"
 if [ $(git tag -l "$TAG") ]; then
     tag_exists="true"
+    echo "Tag $TAG already exists."
 else
   # check if tag exists in the remote repo
   getReferenceStatus=$(curl "$git_refs_url/tags/$TAG" \
@@ -30,15 +35,17 @@ else
 
   if [ "$getReferenceStatus" = '200' ]; then
     tag_exists="true"
+    echo "Tag $TAG already exists."
+  else
+    echo "Tag $TAG does not exist."
   fi
 fi
 
-echo "**pushing tag $TAG to repo $GITHUB_REPOSITORY"
-
 if $tag_exists
 then
+  echo "**updating existing tag $TAG and pushing to repo $GITHUB_REPOSITORY."
   # update tag
-  curl -s -X PATCH "$git_refs_url/tags/$TAG" \
+  curl -X PATCH "$git_refs_url/tags/$TAG" \
   -H "Authorization: token $GITHUB_TOKEN" \
   -d @- << EOF
 
@@ -48,8 +55,9 @@ then
   }
 EOF
 else
+  echo "**pushing new tag $TAG to repo $GITHUB_REPOSITORY."
   # create new tag
-  curl -s -X POST "$git_refs_url" \
+  curl -X POST "$git_refs_url" \
   -H "Authorization: token $GITHUB_TOKEN" \
   -d @- << EOF
 
@@ -59,3 +67,5 @@ else
   }
 EOF
 fi
+
+echo "Tagging complete... $TAG has been successfully pushed!"
