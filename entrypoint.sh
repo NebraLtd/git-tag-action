@@ -14,13 +14,16 @@ fi
 if [[ -z "${COMMIT_SHA}" ]]; then
    COMMIT_SHA=$GITHUB_SHA
    echo "Using workflow trigger SHA: $COMMIT_SHA."
+   sleep 1
 else
    echo "Using supplied SHA: $COMMIT_SHA."
+   sleep 1
 fi
 
 # get GitHub API endpoints prefix
 git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
 echo "GitHub API URL: $git_refs_url"
+sleep 1
 
 # check if tag already exists in the cloned repo
 tag_exists="false"
