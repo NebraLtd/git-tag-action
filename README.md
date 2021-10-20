@@ -18,3 +18,9 @@ env:
   TAG: v1.2.3
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+## Credits
+
+This action is based on the following:
+- [git-tag-action](https://github.com/cardinalby/git-tag-action) by [Cardinal](https://github.com/cardinalby)
+- [git-tag-action](https://github.com/hole19/git-tag-action) by [Hole19](https://github.com/hole19)
